@@ -171,7 +171,7 @@ describe('EmailQueueConsumer', () => {
     expect(mailerService.sendMail).toHaveBeenCalledWith({
       to: 'test@example.com',
       subject: 'In-App, Notification',
-      template: 'notification',
+      template: 'login-otp',
     });
 
     expect(loggerSpy).toHaveBeenCalledWith('Notification email sent successfully to test@example.com');
