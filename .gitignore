@@ -405,3 +405,5 @@ dist
 # User specific ignores 
 todo.txt
 .vscode/
+
+package-lock.json
