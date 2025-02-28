@@ -60,7 +60,7 @@ export class Product extends AbstractBaseEntity {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @OneToMany(() => Comment, comment => comment.product)
+  @OneToMany(() => Comment, comment => comment.product, { onUpdate: 'CASCADE' })
   comments?: Comment[];
 
   @OneToMany(() => OrderItem, orderItem => orderItem.product)
