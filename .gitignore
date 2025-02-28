@@ -386,7 +386,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-=======
 # Local
 dist
 /.env
@@ -401,11 +400,10 @@ dist
 *.dev
 *.prod
 
-
 # User specific ignores 
 todo.txt
 .vscode/
-data/db/
+data/
 docker-compose.yml
 package-lock.json
 .dev.env
