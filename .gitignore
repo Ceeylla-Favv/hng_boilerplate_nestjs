@@ -403,6 +403,10 @@ dist
 # User specific ignores 
 todo.txt
 .vscode/
+
+# Docker compose
+docker-compose.yml
+data/
 <<<<<<< HEAD
 data/
 docker-compose.yml
