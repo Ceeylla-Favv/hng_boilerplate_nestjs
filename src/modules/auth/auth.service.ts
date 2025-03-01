@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import * as speakeasy from 'speakeasy';
 import * as SYS_MSG from '@shared/constants/SystemMessages';
 import { JwtService } from '@nestjs/jwt';
@@ -22,6 +22,7 @@ import { RequestSigninTokenDto } from './dto/request-signin-token.dto';
 import { OtpDto } from '@modules/otp/dto/otp.dto';
 import { DataSource, EntityManager } from 'typeorm';
 import { CreateOrganisationRecordOptions } from '@modules/organisations/dto/create-organisation-options';
+
 @Injectable()
 export default class AuthenticationService {
   constructor(
