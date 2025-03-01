@@ -13,17 +13,21 @@ import {
   Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { OwnershipGuard } from '../../guards/authorization.guard';
 import { CreateProductRequestDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { isUUID } from 'class-validator';
-import { CustomHttpException } from '../../helpers/custom-http-filter';
-import { INVALID_ORG_ID, INVALID_PRODUCT_ID } from '../../helpers/SystemMessages';
-import { AddCommentDto } from '../comments/dto/add-comment.dto';
 import { GetTotalProductsResponseDto } from './dto/get-total-products.dto';
-import { SuperAdminGuard } from '../../guards/super-admin.guard';
-import { skipAuth } from '../../helpers/skipAuth';
+import { CreateReviewDto } from './dto/create-review.dto';
+import { User } from '../user/entities/user.entity';
+import { AuthGuard } from '../../guards/auth.guard';
+import { CurrentUser } from './current-user.decorator';
+import { skipAuth } from '@shared/helpers/skipAuth';
+import { OwnershipGuard } from '@guards/authorization.guard';
+import { AddCommentDto } from '@modules/comments/dto/add-comment.dto';
+import { INVALID_ORG_ID, INVALID_PRODUCT_ID } from '@shared/constants/SystemMessages';
+import { CustomHttpException } from '@shared/helpers/custom-http-filter';
+import { SuperAdminGuard } from '@guards/super-admin.guard';
 
 @ApiTags('Products')
 @Controller('')
@@ -179,5 +183,31 @@ export class ProductsController {
   @ApiResponse({ status: 500, description: 'Internal server error' })
   async getProductStock(@Param('productId') productId: string) {
     return this.productsService.getProductStock(productId);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @Post(':productId/review')
+  @ApiOperation({ summary: 'Submit or Update Product Review' })
+  async submitReview(
+    @Param('productId') productId: string,
+    @CurrentUser() user: User, // Use the correct custom decorator
+    @Body() dto: CreateReviewDto // Consistent DTO name
+  ) {
+    return this.productsService.submitReview(user.id, productId, dto);
+  }
+
+  @Delete(':productId/reviews')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete Product Review' })
+  async deleteReview(@Param('productId') productId: string, @CurrentUser() user: User) {
+    return this.productsService.deleteReview(user.id, productId);
+  }
+
+  @Get('view/reviews/:productId')
+  @ApiOperation({ summary: 'Get Product Details (with Reviews)' })
+  async getProductDetails(@Param('productId') productId: string) {
+    return this.productsService.getProductDetails(productId);
   }
 }
