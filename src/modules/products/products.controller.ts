@@ -18,7 +18,6 @@ import { ProductsService } from './products.service';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { isUUID } from 'class-validator';
 import { GetTotalProductsResponseDto } from './dto/get-total-products.dto';
-import { skipAuth } from '../../helpers/skipAuth';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { User } from '../user/entities/user.entity';
 import { AuthGuard } from '../../guards/auth.guard';
@@ -29,7 +28,6 @@ import { AddCommentDto } from '@modules/comments/dto/add-comment.dto';
 import { INVALID_ORG_ID, INVALID_PRODUCT_ID } from '@shared/constants/SystemMessages';
 import { CustomHttpException } from '@shared/helpers/custom-http-filter';
 import { SuperAdminGuard } from '@guards/super-admin.guard';
-
 
 @ApiTags('Products')
 @Controller('')
