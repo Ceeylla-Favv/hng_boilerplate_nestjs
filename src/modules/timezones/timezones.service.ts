@@ -61,8 +61,11 @@ export class TimezonesService {
     try {
       const timezones = await this.timezoneRepository.find();
       const formattedTimezones = timezones.map(tz => ({
-        timezone: `(UTC ${tz.gmtOffset}) ${tz.description}`,
+        timezone: tz.timezone,
+        gmtOffset: tz.gmtOffset,
+        description: tz.description,
       }));
+
       return {
         status_code: HttpStatus.OK,
         message: SUCCESS,
