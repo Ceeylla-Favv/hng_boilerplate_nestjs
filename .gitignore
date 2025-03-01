@@ -55,6 +55,10 @@ fabric.properties
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+
+# DB
+data/db/
+
 # User-specific files
 *.suo
 *.user
