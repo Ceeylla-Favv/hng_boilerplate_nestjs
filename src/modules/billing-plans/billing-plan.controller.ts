@@ -69,6 +69,8 @@ export class BillingPlanController {
     return this.billingPlanService.deleteBillingPlan(id);
   }
 
+  //  For sending renewal reminders
+
   @Post('send-renewal-reminder/:id')
   @ApiOperation({ summary: 'Send renewal reminder for a billing plan' })
   @ApiResponse({
