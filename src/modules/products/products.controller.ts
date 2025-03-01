@@ -62,7 +62,7 @@ export class ProductsController {
   }
 
   @ApiBearerAuth()
-  // @UseGuards(SuperAdminGuard)
+  @UseGuards(SuperAdminGuard)
   @Get('organisations/products/total')
   @ApiOkResponse({ type: GetTotalProductsResponseDto, description: 'Total Products fetched successfully' })
   @ApiResponse({ status: 500, description: 'Internal server error' })
