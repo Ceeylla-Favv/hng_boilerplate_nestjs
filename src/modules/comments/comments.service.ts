@@ -53,4 +53,39 @@ export class CommentsService {
       data: { comment },
     };
   }
+
+  async dislikeComment(commentId: string, userId: string): Promise<{ message: string; dislikeCount: number }> {
+    const comment = await this.commentRepository.findOne({ where: { id: commentId } });
+
+    if (!comment) {
+      throw new CustomHttpException('Comment not found', HttpStatus.NOT_FOUND);
+    }
+
+    // Simulate a toggle mechanism (if a user has disliked before, remove it)
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new CustomHttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const hasDisliked = await this.commentRepository
+      .createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.user', 'user')
+      .where('comment.id = :commentId', { commentId })
+      .andWhere('user.id = :userId', { userId })
+      .getOne();
+
+    if (hasDisliked) {
+      comment.dislikes -= 1; // Undo dislike
+    } else {
+      comment.dislikes += 1; // Add dislike
+    }
+
+    await this.commentRepository.save(comment);
+
+    return {
+      message: 'Dislike updated successfully',
+      dislikeCount: comment.dislikes,
+    };
+  }
 }

@@ -25,4 +25,13 @@ export class CommentsController {
   async getAComment(@Param('id') id: string): Promise<any> {
     return await this.commentsService.getAComment(id);
   }
+
+  @ApiOperation({ summary: 'Dislike a comment' })
+  @ApiResponse({ status: 200, description: 'Dislike updated successfully' })
+  @ApiResponse({ status: 404, description: 'Comment not found' })
+  @Post(':id/dislike')
+  async dislikeComment(@Param('id') id: string, @Request() req) {
+    const { userId } = req.user;
+    return await this.commentsService.dislikeComment(id, userId);
+  }
 }

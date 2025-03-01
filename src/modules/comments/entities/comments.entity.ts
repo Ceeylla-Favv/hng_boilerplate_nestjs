@@ -19,4 +19,7 @@ export class Comment extends AbstractBaseEntity {
 
   @Column({ nullable: true })
   model_type: string;
+
+  @Column({ type: 'int', default: 0 }) // Add dislikes column
+  dislikes: number;
 }

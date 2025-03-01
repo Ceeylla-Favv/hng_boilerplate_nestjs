@@ -11,6 +11,7 @@ import { HttpStatus } from '@nestjs/common';
 const mockCommentRepository = () => ({
   create: jest.fn(),
   save: jest.fn(),
+  findOne: jest.fn(),
 });
 
 const mockUserRepository = () => ({
@@ -73,6 +74,31 @@ describe('CommentsService', () => {
         message: 'Comment added successfully!',
         savedComment: mockComment,
         commentedBy: 'John Doe',
+      });
+    });
+  });
+
+  describe('dislikeComment', () => {
+    it('should throw CustomHttpException if comment is not found', async () => {
+      commentRepository.findOne.mockResolvedValue(null);
+
+      await expect(service.dislikeComment('comment-id', 'user-id')).rejects.toThrow(CustomHttpException);
+      await expect(service.dislikeComment('comment-id', 'user-id')).rejects.toMatchObject({
+        message: 'Comment not found',
+        status: HttpStatus.NOT_FOUND,
+      });
+    });
+
+    it('should dislike a comment successfully', async () => {
+      const mockComment = { id: 'comment-id', dislikes: 0 };
+      commentRepository.findOne.mockResolvedValue(mockComment);
+      commentRepository.save.mockResolvedValue({ ...mockComment, dislikes: 1 });
+
+      const result = await service.dislikeComment('comment-id', 'user-id');
+
+      expect(result).toEqual({
+        message: 'Comment disliked successfully!',
+        dislikes: 1,
       });
     });
   });
