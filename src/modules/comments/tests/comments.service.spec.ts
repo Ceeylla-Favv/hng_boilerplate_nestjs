@@ -18,7 +18,6 @@ const mockCommentRepository = () => ({
   save: jest.fn(),
   findOne: jest.fn(),
   delete: jest.fn(),
-  findOne: jest.fn(),
   createQueryBuilder: jest.fn(() => mockQueryBuilder),
 });
 
