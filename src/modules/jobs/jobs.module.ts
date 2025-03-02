@@ -10,16 +10,15 @@ import { OrganisationUserRole } from '@modules/role/entities/organisation-user-r
 import { Profile } from '@modules/profile/entities/profile.entity';
 import { Role } from '@modules/role/entities/role.entity';
 import { UserModule } from '@modules/user/user.module';
-import { JobOwnerGuard } from '@guards/job-owner.guard';
 import { AuthGuard } from '@guards/auth.guard';
-import { SuperAdminGuard } from '@guards/super-admin.guard';
+import { JobAccessGuard } from '@guards/job-access.guard';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Job, User, JobApplication, Organisation, OrganisationUserRole, Profile, Role]),
     UserModule,
   ],
-  providers: [JobsService, JobOwnerGuard, AuthGuard, SuperAdminGuard],
+  providers: [JobsService, JobAccessGuard, AuthGuard],
   controllers: [JobsController],
 })
 export class JobsModule {}
